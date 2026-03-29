@@ -1,4 +1,6 @@
 import { js2xml } from "xml-js";
+
+/**@param {Object} info*/
 export const createDefault = (info) => {
     let parameters = JSON.parse(info);
     const xmlObject = {
@@ -10,7 +12,7 @@ export const createDefault = (info) => {
         const value = parameters[param];
         xmlObject.CustomField[0][param] = [{"_text": [value]}]
     }
-    const result = js2xml(xmlObject, {compact: true, alwaysArray: true, spaces: 4});
+    const result = js2xml(xmlObject, {compact: true, spaces: 4});
     return result;
 }
 
@@ -50,7 +52,7 @@ const picklistTemplate = ({
     </valueSet>
 </CustomField>
 `
-
+/**@param {string} info*/
 export const picklistCreate = (info) => {
     let parameters = JSON.parse(info);
     parameters.fullName = parameters.fullName;

@@ -3,6 +3,7 @@
   "displayName": "Field Handler SF",
   "description": "Handle salesforce fields without having to edit xml ",
   "version": "0.0.1",
+  "type": "module",
   "engines": {
     "vscode": "^1.110.0"
   },
@@ -14,10 +15,26 @@
   "contributes": {
     "commands": [
       {
-        "command": "field-handler-sf.helloWorld",
-        "title": "Hello World"
+        "command": "field-handler-sf.extractCurrentFile",
+        "title": "Extract Current File"
+      },
+      {
+        "command": "field-handler-sf.createField",
+        "title": "Create Field With Current File"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "field-handler-sf.extractCurrentFile",
+          "when": "editorLangId == xml"
+        },
+        {
+          "command": "field-handler-sf.createField",
+          "when": "editorLangId == json"
+        }
+      ]
+    }
   },
   "scripts": {
     "lint": "eslint .",

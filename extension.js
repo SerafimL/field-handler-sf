@@ -1,36 +1,39 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-const vscode = require('vscode');
-
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+import * as vscode from 'vscode'
+import { extractFile, createField } from './index.js'
 
 /**
  * @param {vscode.ExtensionContext} context
  */
-function activate(context) {
+export function activate(context) {
+	const extractCurrentFile = vscode.commands.registerCommand('field-handler-sf.extractCurrentFile', async () => {
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			vscode.window.showErrorMessage('No active file open');
+			return;
+		}
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "field-handler-sf" is now active!');
+		const document = editor.document;
+		const path = editor.document.uri.fsPath;
+		const text = document.getText();
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('field-handler-sf.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Field Handler SF!');
+		extractFile(path, text);
 	});
 
-	context.subscriptions.push(disposable);
+	const createFieldCmd = vscode.commands.registerCommand('field-handler-sf.createField', async () => {
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			vscode.window.showErrorMessage('No active file open');
+			return;
+		}
+
+		const document = editor.document;
+		const path = editor.document.uri.fsPath;
+		const text = document.getText();
+
+		createField(path, text);
+	});
+
+	context.subscriptions.push(extractCurrentFile, createFieldCmd);
 }
 
-// This method is called when your extension is deactivated
-function deactivate() {}
-
-module.exports = {
-	activate,
-	deactivate
-}
+export function deactivate() {}
