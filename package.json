@@ -16,18 +16,18 @@
     "commands": [
       {
         "command": "field-handler-sf.extractCurrentFile",
-        "title": "Extract Current File"
+        "title": "SF_Field: Extract Current File"
       },
       {
         "command": "field-handler-sf.createField",
-        "title": "Create Field With Current File"
+        "title": "SF_Field: Create Field With Current File"
       }
     ],
     "menus": {
       "editor/context": [
         {
           "command": "field-handler-sf.extractCurrentFile",
-          "when": "editorLangId == xml"
+          "when": "editorLangId == xml && resourcePath =~ /fields\\//"
         },
         {
           "command": "field-handler-sf.createField",

@@ -16,7 +16,17 @@ export function activate(context) {
 		const path = editor.document.uri.fsPath;
 		const text = document.getText();
 
-		extractFile(path, text);
+		const { fileName, fullpath } = await extractFile(path, text);
+        const fileUri = vscode.Uri.file(fullpath);
+
+		const action = await vscode.window.showInformationMessage(
+			`File created: \n${fileName}`,
+			'Open File'
+		);
+
+		if (action === 'Open File') {
+			vscode.window.showTextDocument(fileUri);
+		}
 	});
 
 	const createFieldCmd = vscode.commands.registerCommand('field-handler-sf.createField', async () => {
@@ -30,7 +40,17 @@ export function activate(context) {
 		const path = editor.document.uri.fsPath;
 		const text = document.getText();
 
-		createField(path, text);
+		const { fileName, fullpath } = await createField(path, text);
+        const fileUri = vscode.Uri.file(fullpath);
+
+		const action = await vscode.window.showInformationMessage(
+			`File created: \n${fileName}`,
+			'Open File'
+		);
+
+		if (action === 'Open File') {
+			vscode.window.showTextDocument(fileUri);
+		}
 	});
 
 	context.subscriptions.push(extractCurrentFile, createFieldCmd);

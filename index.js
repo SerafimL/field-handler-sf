@@ -53,24 +53,18 @@ export const extractFile = async (filePath, info) => {
     const directoty = `${folderPath}/extractions`;
     fs.mkdirSync(directoty, { recursive: true });
     const fileName = `${fullName}.json`;
-    fs.writeFile(`${directoty}/${fileName}`, template, err => {
+    const fullpath = `${directoty}/${fileName}`;
+    fs.writeFile(fullpath, template, err => {
         if (err) {
             console.error(err);
             vscode.window.showErrorMessage(err.message);
             return;
         }
-        console.log(`file written successfully: ${directoty}/${fileName}`);
+        console.log(`file written successfully: ${fullpath}`);
     });
-        const fileUri = vscode.Uri.file(`${directoty}/${fileName}`);
 
-    const action = await vscode.window.showInformationMessage(
-        `File created: \n${fileName}`,
-        'Open File'
-    );
 
-    if (action === 'Open File') {
-        vscode.window.showTextDocument(fileUri);
-    }
+    return {fileName, fullpath};
 }
 
 /** 
@@ -87,24 +81,16 @@ export const createField = async (filePath, info) => {
     const { fullName, type, sObject } = infoObj;
     const folderPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
     const template = create(type, info);
-    const directoty = `${folderPath}/force-app/main/default/objects/Case/fields`;
+    const directoty = `${folderPath}/force-app/main/default/objects/${sObject}/fields`;
     const fileName = `${fullName}.field-meta.xml`;
-    fs.writeFile(`${directoty}/${fileName}`, template, err => {
+    const fullpath = `${directoty}/${fileName}`;
+    fs.writeFile(fullpath, template, err => {
         if (err) {
             console.error(err);
             vscode.window.showErrorMessage(err.message);
             return;
         }
-        console.log(`file written successfully: ${directoty}/${fileName}`);
+        console.log(`file written successfully: ${fullpath}`);
     });
-    const fileUri = vscode.Uri.file(`${directoty}/${fileName}`);
-
-    const action = await vscode.window.showInformationMessage(
-        `File created: \n${fileName}`,
-        'Open File'
-    );
-
-    if (action === 'Open File') {
-        vscode.window.showTextDocument(fileUri);
-    }
+    return {fileName, fullpath};
 }
